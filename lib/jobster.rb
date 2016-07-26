@@ -1,5 +1,2 @@
-require "jobster/version"
-
-module Jobster
-  # Your code goes here...
-end
+require_relative "./jobster/version"
+require_relative './jobster/cli'
