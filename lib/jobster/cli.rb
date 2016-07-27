@@ -39,6 +39,8 @@ class Jobster::CLI
     ]
     table_data.each_with_index {|hash, index| hash["".to_sym] = index + 1}
     Formatador.display_table(table_data, ["".to_sym, :title, :location, :short_desc])
+
+    @jobs = Jobster::job.result
   end
 
   def menu
