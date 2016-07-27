@@ -12,13 +12,15 @@ class Jobster::CLI
     #   progress.increment; sleep 0.01
     # end
 
-    total    = 10
-    progress = ProgressBar.new#(total, :color => "green")
-    10.times do
-      progress.increment; sleep 0.01
-    end
-
-
+    progress = ProgressBar.create( 
+     # :format => "%a %b\u{15E7}%i %p%% %t",
+     #:format => "%b\u{15E7}%i %p%%",
+     :format => "%p%% %b",
+     :progress_mark  => "_", 
+     :remainder_mark => "\u{FF65}", 
+     :starting_at    => 0)#(total, :color => "green")
+    100.times { progress.increment; sleep 0.01 }
+    puts "\n\n"
 
     list_jobs
     menu
@@ -26,11 +28,6 @@ class Jobster::CLI
   end
 
   def list_jobs
-    puts "All the jobs"
-    puts <<-DOC.gsub /^\s*/, ''
-    1. Java Developer - NY
-    2. PHP Developer - NY
-    DOC
     table_data = [
       {:title => "Java Backend Developer", :location => "New York", :short_desc => "whvfvzc xvjzx whvfbjkvhjdkb dvxk zxgjkv zxvjz xvgzkxhjv xvjzx whvfbjkvhjdkb dvxk zxgjkv zxvjz xvgzkxhjv gzhjkx vgjzc gxvzxjvzc xvjzx"},
       {:title => "Senior Fullstack Engineer", :location => "San Francisco", :short_desc => "whvfbjkvhjdkb dvxk zxgjkv zxvjz xvgzkxhjv gzhjkx vgjzc gxvzxjvzc xvjzx"}, 
@@ -38,8 +35,8 @@ class Jobster::CLI
     ]
     table_data.each_with_index {|hash, index| hash["".to_sym] = index + 1}
     Formatador.display_table(table_data, ["".to_sym, :title, :location, :short_desc])
-
-    @jobs = Jobster::job.result
+    puts "\n\n"
+    #@jobs = Jobster::job.result
   end
 
   def menu
@@ -50,24 +47,13 @@ class Jobster::CLI
     ]
 
     puts "Enter the number of the job you would like more information on or type exit to enter:"
-    input = gets.strip.downcase
+    # input = gets.strip
 
-    
-    until input == "exit"
-      iindex = input.to_i - 1
-      table_data[i][:short_desc]
-    end
-       
-    #  end input != "exit"
-    # input = gets.strip.downcase
-    # case input
-    #   when "1"
-    #     puts "More info on job 1"
-    #   when "2"
-    #     puts "More info on job 2"
-    #   end
+    # unless input.downcase == "exit"
+    #   index = input.to_i - 1
+    #   puts table_data[index][:short_desc]
+    #   menu
     # end
-
   end
 
   def goodbye
