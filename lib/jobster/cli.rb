@@ -1,22 +1,21 @@
 require 'formatador'
+require 'ruby-progressbar'
 
 
 class Jobster::CLI
 
   def call
-    
-    
-    # Formatador.display_line("+++++++++++I'm working+++++++++")
-    # total = 100
-    # progress = Formatador::ProgressBar.new(total, :color => "gray")
-    # 1000.times do
-    #   progress.increment
+
+    # total    = 10
+    # progress = Formatador::ProgressBar.new(total, :color => "green")
+    # 10.times do
+    #   progress.increment; sleep 0.01
     # end
 
     total    = 10
-    progress = Formatador::ProgressBar.new(total, :color => "green")
-    1000.times do
-      progress.increment
+    progress = ProgressBar.new#(total, :color => "green")
+    10.times do
+      progress.increment; sleep 0.01
     end
 
 
