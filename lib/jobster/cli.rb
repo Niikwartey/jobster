@@ -9,16 +9,14 @@ class Jobster::CLI
 
   def call
     puts "\n\n"
-    progress = ProgressBar.create( 
-    # :format => "%a %b\u{15E7}%i %p%% %t",
-    #:format => "%b\u{15E7}%i %p%%",
+    progress = ProgressBar.create(
     :format => "%p%% %b",
     :progress_mark  => "_", 
     :remainder_mark => "\u{FF65}", 
     :starting_at    => 0)#(total, :color => "green")
     100.times { progress.increment; sleep 0.01 }
     puts "\n\n"
-    
+
     list_jobs
     menu
   end

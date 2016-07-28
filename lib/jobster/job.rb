@@ -12,15 +12,16 @@ class Jobster::Job
     puts "3. Miles within Location (radius)"
     puts "4. Sort by (relevance, date)"
     puts "5. Job type (fulltime, parttime, contract, internship, temporary)."
+    puts "6. Number of results per page"
 
     url_base = "http://api.indeed.com/ads/apisearch?publisher=1863007693750280&q="
     
     # you ask them initially for job title and location, if they accidentally typed in nothing, still give result
-    options_hash = {"1" => "", "2" => "&l=", "3" => "&radius=", "4" => "&sort=", "5" => "&jt="}
+    options_hash = {"1" => "", "2" => "&l=", "3" => "&radius=", "4" => "&sort=", "5" => "&jt=", "6" => "&limit="}
     
     # get an option key
     option_key = gets.strip.downcase
-    while option_key != "search" && ["1","2","3","4","5"].include?(option_key)
+    while option_key != "search" && ["1","2","3","4","5","6"].include?(option_key)
       option_value = gets.strip.downcase
       options_hash[option_key] += option_value
       option_key = gets.strip.downcase
