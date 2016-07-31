@@ -15,9 +15,10 @@ class Jobster::JobsRequest
   end
 
   def json_url
+    system 'clear'
     puts "\n\tWelcome to #{'Jobster'.yellow}#{'!'.blink} Your one stop command line job search buddy\n\n"
 
-    puts "| #{'To search for jobs, enter a numbers from the options below'.light_blue}"
+    puts "| #{'To search for jobs, enter numbers from the options below'.light_blue}"
     puts "| #{'to set their corresponding filters and then hit *enter* to search'.light_blue}"
     puts "|____________________________________________________________________"
     puts "| '1' to set job title\n"

@@ -26,11 +26,14 @@ class Jobster::CLI
   end
 
   def menu
-    puts "Enter the index number of the job you would like more information on or type 'exit' to exit:"
-  
+    puts "| #{'choose one of the actions below, to proceed'.light_blue}"
+    puts "|_________________________________________________________\n|"
+    puts "| '1-#{jobs["results"].count}' to learn more about corresponding job\n"
+    puts "| 'restart' to start over\n"
+    puts "| 'quit' to exit\n\n"
+
     user_input = gets.strip.downcase
     job_index = indexer(user_input)
-
     if job_index.class == Fixnum
       # get job description
       job_key = jobs["results"][job_index]["jobkey"]
@@ -43,25 +46,30 @@ class Jobster::CLI
       # display job description
       self.display_summary(job_hash)
       # ask  for and excute on further user actions
-      puts "| #{'For further actions, enter a number from the options below'.light_blue}"
+      puts "| #{'choose one of the actions below, to proceed'.light_blue}"
       puts "|_________________________________________________________\n|"
-      puts "| '1' to apply to this job\n"
-      puts "| '2' to learn about another job within this search\n"
-      puts "| '3' to exit\n\n"
+      puts "| 'apply' to apply to this job\n"
+      puts "| 'another' to learn about another job within this search\n"
+      puts "| 'restart' to start over\n"
+      puts "| 'quit' to exit\n\n"
 
       user_input = gets.strip
       case user_input
-      when "1" 
+      when "apply" 
         Launchy.open( job_json["results"][0]["url"] )
-      when "2"
+      when "another"
         self.menu
-      when "3"
+      when "restart"
+        self.class.new.call
+      when "quit"
         self.goodbye
       else 
         puts "#{'invalid input'.red}\n"
-        self.goodbye
+        self.menu
       end
-    elsif job_index == "exit"
+    elsif user_input == 'restart'
+      self.class.new.call
+    elsif job_index == "quit"
       self.goodbye
     else
       puts "#{'invalid input'.red}\n"
@@ -106,7 +114,7 @@ class Jobster::CLI
         column '', :width => 2
         column 'Position', :width => 35, :bold => true
         column 'Location', :width => 25, :align => 'center'
-        column 'Job description', :width => 80
+        column 'Job description', :width => 70
       end
 
       job_results.each_with_index do |job, index|
