@@ -69,7 +69,7 @@ class Jobster::CLI
       end
     elsif user_input == 'restart'
       self.class.new.call
-    elsif job_index == "quit"
+    elsif user_input == 'quit'
       self.goodbye
     else
       puts "#{'invalid input'.red}\n"
@@ -142,7 +142,8 @@ class Jobster::CLI
   end
 
   def goodbye
-    puts "\nSee you tomorrow for more jobs\n\n"
+    puts "\nSee you tomorrow for more jobs"
+    puts "#{'Jobster'.yellow}#{'!'.blink} Your one-stop job-search buddy\n\n"
   end
 
 end
