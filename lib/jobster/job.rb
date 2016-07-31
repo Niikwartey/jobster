@@ -10,15 +10,15 @@ class Jobster::JobsRequest
     begin
       JSON.parse( HTTParty.get(self.url).to_s )
     rescue JSON::ParserError => e
-      self.json
+      JSON.parse( HTTParty.get(self.url).to_s )
     end
   end
 
   def json_url
     puts "Welcome to Jobster! Your one stop command line job search buddy\n\n"
 
-    puts "| To search for jobs, enter a numbers from the options below"
-    puts "| to set their corresponding filters and then hit 'enter' to search\n"
+    puts "| #{'To search for jobs, enter a numbers from the options below'.light_blue}"
+    puts "| #{'to set their corresponding filters and then hit *enter* to search'.light_blue}"
     puts "|_________________________________________________________\n|"
     puts "| '1' to set job title\n"
     puts "| '2' to set location\n"
@@ -39,14 +39,14 @@ class Jobster::JobsRequest
         options.values.each { |option| url_base += option }
         self.url = url_base + "&limit=25&v=2&format=json"
         break
-      else
+      elsif indexer(option_key)
         puts "what will be the #{filters[indexer(option_key)]}?".light_blue
 
         option_value = gets.strip.downcase
         options[option_key] += option_value
 
         puts "#{filters[indexer(option_key)]} set to #{option_value}".light_blue
-        puts "set another filter or hit 'enter' to search\n"
+        puts "set another filter or hit *enter* to search\n"
 
         option_key = gets.strip.downcase
       end
@@ -60,7 +60,7 @@ class Jobster::JobsRequest
     if valid_keys.include?(input)
       index.to_i - 1
     else
-      puts "invalid response ..Try again"
+      puts "#{'invalid input.'.red} Try again\n\n"
       self.json_url
     end
   end

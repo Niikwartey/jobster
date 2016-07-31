@@ -45,7 +45,7 @@ class Jobster::CLI
   end
 
   def menu
-    puts "Enter the index number of the job you would like more information on or type exit to enter:"
+    puts "Enter the index number of the job you would like more information on or type 'exit' to exit:"
   
     user_input = gets.strip.downcase
     job_index = indexer(user_input)
@@ -68,7 +68,7 @@ class Jobster::CLI
       # display job description
       self.display_summary(job_hash)
       # ask  for and excute on further user actions
-      puts "| for further actions, enter a number from the options below\n"
+      puts "| #{'For further actions, enter a number from the options below'.light_blue}"
       puts "|_________________________________________________________\n|"
       puts "| '1' to apply to this job\n"
       puts "| '2' to learn about another job within this search\n"
@@ -83,18 +83,15 @@ class Jobster::CLI
       when "3"
         self.goodbye
       else 
-        puts "invalid input"
+        puts "#{'invalid input'.red}\n"
         self.goodbye
       end
     elsif job_index == "exit"
       self.goodbye
-    else 
-    self.menu
+    else
+      puts "#{'invalid input'.red}\n"
+      self.menu
     end 
-  end
-
-  def goodbye
-    puts "See you tomorrow for more jobs"
   end
 
   def display_table
@@ -132,6 +129,11 @@ class Jobster::CLI
     end
     vertical_spacing 2
   end
+
+  def goodbye
+    puts "\n\nSee you tomorrow for more jobs\n\n"
+  end
+
 end
 
  # job_results.each_with_index do |job, index|
