@@ -102,7 +102,7 @@ class Jobster::CLI
 
     vertical_spacing 2
     table :border => true do
-      row :color => 'blue' do
+      row :color => 'light_blue' do
         column '', :width => 2
         column 'Position', :width => 35, :bold => true
         column 'Location', :width => 25, :align => 'center'
@@ -111,8 +111,8 @@ class Jobster::CLI
 
       job_results.each_with_index do |job, index|
         row :color => 'white' do
-          column index + 1, :color => 'yellow'
-          column job["jobtitle"]
+          column index + 1
+          column job["jobtitle"], :color => 'yellow'
           column job["formattedLocation"]
           column job["snippet"]
         end
@@ -124,8 +124,9 @@ class Jobster::CLI
   def display_summary(job)
     vertical_spacing 2
     table :border => false do
-      row :color => 'white' do
-        column job["jobtitle"], :bold => true, :color => 'yellow'
+      row do
+        column '', :width => 6
+        column job["jobtitle"],  :width => 30, :bold => true, :color => 'yellow'
         column job["snippet"], :width => 80, :padding => 2
       end
     end
