@@ -10,27 +10,27 @@ class Jobster::JobsRequest
     begin
       JSON.parse( HTTParty.get(self.url).to_s )
     rescue JSON::ParserError => e
-      JSON.parse( HTTParty.get(self.url).to_s )
+      self.json
     end
   end
 
   def json_url
-    puts "Welcome to Jobster! Your one stop command line job search buddy\n\n"
+    puts "\n\tWelcome to #{'Jobster'.yellow}#{'!'.blink} Your one stop command line job search buddy\n\n"
 
     puts "| #{'To search for jobs, enter a numbers from the options below'.light_blue}"
     puts "| #{'to set their corresponding filters and then hit *enter* to search'.light_blue}"
-    puts "|_________________________________________________________\n|"
+    puts "|____________________________________________________________________"
     puts "| '1' to set job title\n"
     puts "| '2' to set location\n"
     puts "| '3' to set mile-radius\n"
-    puts "| '4' to sort (by priority 'relevance', 'date')\n"
-    puts "| '5' to sort (by job type 'fulltime', 'parttime')\n\n"
+    puts "| '4' to set job type: 'fulltime' or 'parttime'\n"
+    puts "| '5' to sort: 'relevance' or 'date'\n\n"
 
     url_base = "http://api.indeed.com/ads/apisearch?publisher=1863007693750280&q="
     
     # you ask them initially for job title and location, if they accidentally typed in nothing, still give result
-    options = {"1" => "", "2" => "&l=", "3" => "&radius=", "4" => "&sort=", "5" => "&jt="}
-    filters = ["job title", "location", "mile-radius", "priority", "job type"]
+    options = {"1" => "", "2" => "&l=", "3" => "&radius=", "4" => "&jt=", "5" => "&sort="}
+    filters = ["job title", "location", "mile-radius", "job type", "sorting"]
     
     # get an option key
     option_key = gets.strip.downcase
@@ -49,6 +49,10 @@ class Jobster::JobsRequest
         puts "set another filter or hit *enter* to search\n"
 
         option_key = gets.strip.downcase
+
+      else
+        puts "#{'invalid input.'.red} Try again\n\n"
+        self.json_url
       end
     end
     
@@ -57,12 +61,7 @@ class Jobster::JobsRequest
   def indexer(input)
     index = input
     valid_keys = (1..5).to_a.map(&:to_s)
-    if valid_keys.include?(input)
-      index.to_i - 1
-    else
-      puts "#{'invalid input.'.red} Try again\n\n"
-      self.json_url
-    end
+    valid_keys.include?(input) ? index.to_i - 1 : nil
   end
 
 end
