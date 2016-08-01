@@ -112,7 +112,7 @@ class Jobster::CLI
     table :border => true do
       row :color => 'light_blue' do
         column '', :width => 2
-        column 'Position', :width => 35, :bold => true
+        column 'Position', :width => 35
         column 'Location', :width => 25, :align => 'center'
         column 'Job description', :width => 70
       end
@@ -147,14 +147,3 @@ class Jobster::CLI
   end
 
 end
-
- # job_results.each_with_index do |job, index|
-      #   row do
-      #     column index + 1
-      #     column job["jobtitle"]
-      #     column job["formattedLocation"]
-      #     column job["snippet"]
-      #   end
-      # end
-
-

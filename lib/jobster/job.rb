@@ -61,7 +61,7 @@ class Jobster::JobsRequest
 
   def indexer(input)
     index = input
-    valid_keys = (1..5).to_a.map(&:to_s)
+    valid_keys = (1..5).to_a.map(&:to_s) << ""
     valid_keys.include?(input) ? index.to_i - 1 : nil
   end
 
