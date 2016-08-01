@@ -112,7 +112,7 @@ class Jobster::CLI
     table :border => true do
       row :color => 'light_blue' do
         column '', :width => 2
-        column 'Position', :width => 35
+        column 'Position', :width => 35, :bold => true
         column 'Location', :width => 25, :align => 'center'
         column 'Job description', :width => 70
       end
@@ -133,7 +133,7 @@ class Jobster::CLI
     vertical_spacing 2
     table :border => false do
       row do
-        column '', :width => 6
+        column '', :width => 1
         column job["jobtitle"],  :width => 30, :bold => true, :color => 'yellow'
         column job["snippet"], :width => 80, :padding => 2
       end
