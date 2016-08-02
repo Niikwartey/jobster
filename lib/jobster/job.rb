@@ -7,11 +7,7 @@ class Jobster::JobsRequest
 
 
   def json
-    begin
-      JSON.parse( HTTParty.get(self.url).to_s )
-    rescue JSON::ParserError => e
-      self.json
-    end
+    JSON.parse( HTTParty.get(self.url).body )
   end
 
   def json_url
@@ -27,36 +23,58 @@ class Jobster::JobsRequest
     puts "| '4' to set job type: 'fulltime' or 'parttime'\n"
     puts "| '5' to sort: 'relevance' or 'date'\n\n"
 
+
+
     url_base = "http://api.indeed.com/ads/apisearch?publisher=1863007693750280&q="
     
     # you ask them initially for job title and location, if they accidentally typed in nothing, still give result
-    options = {"1" => "", "2" => "&l=", "3" => "&radius=", "4" => "&jt=", "5" => "&sort="}
+    options_hash = {"1" => "", "2" => "&l=", "3" => "&radius=", "4" => "&jt=", "5" => "&sort="}
     filters = ["job title", "location", "mile-radius", "job type", "sorting"]
     
     # get an option key
     option_key = gets.strip.downcase
-    while true
-      if option_key == ""
-        options.values.each { |option| url_base += option }
-        self.url = url_base + "&limit=25&v=2&format=json"
-        break
-      elsif indexer(option_key)
+    # while true
+    #   if option_key == ""
+    #     options.values.each { |option| url_base += option }
+    #     self.url = url_base + "&limit=25&v=2&format=json"
+    #     break
+    #   elsif indexer(option_key)
+    #     puts "what will be the #{filters[indexer(option_key)]}?".light_blue
+
+    #     option_value = gets.strip.downcase
+    #     options[option_key] += option_value
+
+    #     puts "#{filters[indexer(option_key)]} set to #{option_value}".light_blue
+    #     puts "set another filter or hit *enter* to search\n"
+
+    #     option_key = gets.strip.downcase
+
+    #   else
+    #     puts "#{'invalid input.'.red} Try again\n\n"
+    #     self.json_url
+    #   end
+    # end
+
+      while option_key != "" && ["1","2","3","4","5"].include?(option_key)
         puts "what will be the #{filters[indexer(option_key)]}?".light_blue
-
         option_value = gets.strip.downcase
-        options[option_key] += option_value
-
         puts "#{filters[indexer(option_key)]} set to #{option_value}".light_blue
         puts "set another filter or hit *enter* to search\n"
-
+        options_hash[option_key] += option_value
         option_key = gets.strip.downcase
-
+      end
+      if option_key == ""
+        options_hash.each do |index, option|
+          url_base += option
+        end
+        self.url = url_base + "&limit=25&v=2&format=json"
       else
-        puts "#{'invalid input.'.red} Try again\n\n"
+        puts "#{'invalid input.'.red}. Try again\n\n"
+        sleep(1.5)
         self.json_url
       end
-    end
-    
+
+  
   end
 
   def indexer(input)

@@ -1,6 +1,6 @@
 require 'pry'
 require 'json'
-require 'HTTParty'
+require 'httparty'
 require 'ruby-progressbar'
 require 'command_line_reporter'
 require 'launchy'

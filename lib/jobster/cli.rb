@@ -97,12 +97,7 @@ class Jobster::CLI
 
 
   def get_json(url)
-    begin
-      json_string = HTTParty.get( url ).to_s
-      JSON.parse( json_string )
-    rescue JSON::ParserError => e
-      self.get_json( url )
-    end
+    JSON.parse( HTTParty.get( url ).body )
   end
 
   def display_table
@@ -133,7 +128,7 @@ class Jobster::CLI
     vertical_spacing 2
     table :border => false do
       row do
-        column '', :width => 1
+        column '', :width => 6
         column job["jobtitle"],  :width => 30, :bold => true, :color => 'yellow'
         column job["snippet"], :width => 80, :padding => 2
       end
