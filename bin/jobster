@@ -1,6 +1,6 @@
 #!/user/bin/env ruby
 
-require './lib/jobster'
+require_relative '../lib/jobster'
 
-Jobster::CLI.new.call
+Jobster::CLI.run
 
