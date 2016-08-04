@@ -4,7 +4,6 @@ class Jobster::IndeedAPI
     jobs = JSON.parse( HTTParty.get(url).body )
     jobs["results"].each { |job| job["snippet"] = self.format(job["snippet"]) }
     jobs["results"]
-    # binding.pryquit
   end
 
   # helpers

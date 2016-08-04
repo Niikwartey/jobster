@@ -8,15 +8,15 @@ class Table
         column '', :width => 2
         column 'Position', :width => 35, :bold => true
         column 'Location', :width => 25, :align => 'center'
-        column 'Job description', :width => 70
+        column 'Description', :width => 70
       end
 
       jobs.each_with_index do |job, index|
         row :color => 'white' do
           column index + 1
-          column job["jobtitle"], :color => 'yellow'
-          column job["formattedLocation"]
-          column job["snippet"]
+          column job.jobtitle, :color => 'yellow'
+          column job.location
+          column job.description
         end
       end
     end
@@ -28,13 +28,10 @@ class Table
     table :border => false do
       row do
         column '', :width => 6
-        column job["jobtitle"],  :width => 30, :bold => true, :color => 'yellow'
-        column job["snippet"], :width => 80, :padding => 2
+        column job.jobtitle,  :width => 30, :bold => true, :color => 'yellow'
+        column job.description, :width => 80, :padding => 2
       end
     end
     vertical_spacing 2
   end
-  
 end
-
-#Table.new().run

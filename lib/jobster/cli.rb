@@ -5,7 +5,7 @@ class Jobster::CLI
   end
 
   def self.run
-    @@jobs = Jobster::IndeedAPI.json(self.get_url)
+    @@jobs = Jobster::Job.make_jobs(self.get_url)
 
     ################################# progress bar #####################################
     system 'clear'
@@ -63,11 +63,11 @@ class Jobster::CLI
 
     if job_index.class == Fixnum
       # get job description
-      job_key = self.jobs[job_index]["jobkey"]
-      job_url = "http://api.indeed.com/ads/apigetjobs?publisher=1863007693750280&jobkeys=#{job_key}&v=2&format=json"
-      job_hash = Jobster::IndeedAPI.json(job_url)[0]
+      job_key = self.jobs[job_index].jobkey
+      json_url = "http://api.indeed.com/ads/apigetjobs?publisher=1863007693750280&jobkeys=#{job_key}&v=2&format=json"
+      job = Jobster::Job.make_a_job(json_url)
       # display job description
-      Table.display_as_summary(job_hash)
+      Table.display_as_summary(job)
 
       # ask  for and excute on further user actions
       self.print_actions
@@ -75,7 +75,7 @@ class Jobster::CLI
       user_input = gets.strip
       case user_input
       when "apply" 
-        Launchy.open( job_hash["url"] )
+        Launchy.open( job.url )
       when "another"
         self.menu
       when "restart"
