@@ -5,7 +5,9 @@ class Jobster::CLI
   end
 
   def self.run
-    @@jobs = Jobster::Job.make_jobs(self.get_url)
+    jobs = Jobster::IndeedAPI.json(self.get_url)
+    jobs.each { |job| Jobster::Job.new(job).save }
+    @@jobs = Jobster::Job.all
 
     ################################# progress bar #####################################
     system 'clear'
@@ -65,7 +67,10 @@ class Jobster::CLI
       # get job description
       job_key = self.jobs[job_index].jobkey
       json_url = "http://api.indeed.com/ads/apigetjobs?publisher=1863007693750280&jobkeys=#{job_key}&v=2&format=json"
-      job = Jobster::Job.make_a_job(json_url)
+      # job = Jobster::Job.make_a_job(json_url)
+
+      job_json = Jobster::IndeedAPI.json(json_url)[0]
+      job = Jobster::Job.new(job_json)
       # display job description
       Table.display_as_summary(job)
 
